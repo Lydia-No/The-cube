@@ -31,7 +31,13 @@ class CubeGraph:
             self.edge_letters[tuple(sorted(edge))] = letter
 
     def edge_letter(self, v1, v2):
-        return self.edge_letters[tuple(sorted((v1, v2)))]
+        key = tuple(sorted((v1, v2)))
+        if key not in self.edge_letters:
+            raise ValueError(f"No edge letter defined for edge {key}")
+        return self.edge_letters[key]
+
+    def neighbors(self, vertex):
+        return self.vertex_neighbors[vertex]
 
 
 class SymbolicWalker:
@@ -47,16 +53,16 @@ class SymbolicWalker:
         seq = []
 
         for i in range(steps):
-            neighbors = self.cube.vertex_neighbors[current]
-            nxt = neighbors[i % 3]
+            neighbors = self.cube.neighbors(current)
+            nxt = neighbors[i % len(neighbors)]
             seq.append(self.cube.edge_letter(current, nxt))
             current = nxt
             path.append(current)
 
         return path, seq
 
-    def run_concept(self, concept):
+    def run_concept(self, concept, steps=6):
         start = self.concept_seed(concept)
-        path, seq = self.walk(start)
+        path, seq = self.walk(start, steps=steps)
         score = score_sequence(seq)
         return start, path, seq, score
