@@ -26,3 +26,15 @@ def test_step():
     assert response.status_code == 200
     data = response.json()
     assert data["status"] == "ok"
+
+
+def test_seed_concept():
+    response = client.post(
+        "/seed_concept",
+        json={"concept": "symbolic AI", "steps": 6, "force_scale": 0.15},
+    )
+    assert response.status_code == 200
+    data = response.json()
+    assert data["status"] == "ok"
+    assert data["result"]["concept"] == "symbolic AI"
+    assert len(data["result"]["raw_vector"]) == 6

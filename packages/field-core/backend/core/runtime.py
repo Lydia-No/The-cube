@@ -4,6 +4,7 @@ from core.hypercube import HypercubeField
 from core.agent import Agent
 from core.attractor import Attractor
 from core.topology import Topology
+from core.cube_bridge import CubeBridge
 
 
 class Runtime:
@@ -18,6 +19,9 @@ class Runtime:
         ]
         self.topology = Topology()
         self.steps = 0
+        self.bridge = CubeBridge()
+        self.last_concept = None
+        self.last_cube_payload = None
 
     def choose_action(self, agent):
         coherence = agent.state["coherence"]
@@ -28,6 +32,23 @@ class Runtime:
         if coherence > entropy + 0.1:
             return "explore"
         return "expand"
+
+    def apply_concept(self, concept, steps=6, force_scale=0.15):
+        result = self.bridge.concept_vector(concept, steps=steps)
+        vector = result["vector"]
+
+        scaled = [v * force_scale for v in vector]
+        self.field.add_external_force(scaled)
+
+        self.last_concept = concept
+        self.last_cube_payload = result["payload"]
+
+        return {
+            "concept": concept,
+            "raw_vector": vector,
+            "scaled_force": scaled,
+            "cube": result["payload"],
+        }
 
     def step(self):
         for agent in self.agents:
@@ -58,4 +79,6 @@ class Runtime:
             ],
             "topology": self.topology.graph,
             "clusters": self.topology.clusters(),
+            "last_concept": self.last_concept,
+            "last_cube_payload": self.last_cube_payload,
         }
