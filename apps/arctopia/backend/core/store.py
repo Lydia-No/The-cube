@@ -1,6 +1,8 @@
 import json
 from pathlib import Path
 from typing import List, Dict, Any
+import tempfile
+import os
 
 from core.models import ArcCase, ArcEvent
 
@@ -21,8 +23,11 @@ class JsonStore:
     def _read_json(self, path: Path) -> List[Dict[str, Any]]:
         return json.loads(path.read_text(encoding="utf-8"))
 
-    def _write_json(self, path: Path, data: List[Dict[str, Any]]) -> None:
-        path.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
+    def _atomic_write(self, path: Path, data: List[Dict[str, Any]]) -> None:
+        with tempfile.NamedTemporaryFile("w", delete=False, dir=path.parent) as tmp:
+            json.dump(data, tmp, indent=2, ensure_ascii=False)
+            tmp_path = tmp.name
+        os.replace(tmp_path, path)
 
     def list_cases(self) -> List[ArcCase]:
         return [ArcCase(**item) for item in self._read_json(CASES_FILE)]
@@ -36,7 +41,7 @@ class JsonStore:
     def create_case(self, case: ArcCase) -> ArcCase:
         cases = self._read_json(CASES_FILE)
         cases.append(case.model_dump())
-        self._write_json(CASES_FILE, cases)
+        self._atomic_write(CASES_FILE, cases)
         return case
 
     def list_events(self) -> List[ArcEvent]:
@@ -49,5 +54,5 @@ class JsonStore:
     def create_event(self, event: ArcEvent) -> ArcEvent:
         events = self._read_json(EVENTS_FILE)
         events.append(event.model_dump())
-        self._write_json(EVENTS_FILE, events)
+        self._atomic_write(EVENTS_FILE, events)
         return event
