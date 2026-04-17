@@ -20,7 +20,18 @@ packages/
   - attractors
   - topology
   - runtime loop
-  - API (/state, /step, /seed_concept, /timeline)
+  - API
+
+apps/
+
+- arctopia  
+  Governance and legitimacy application layer (scaffolded)
+
+- ecoarq  
+  Ecological sensing and verification application layer (scaffolded)
+
+- realert  
+  Monitoring and alert application layer (scaffolded)
 
 ## Architecture
 
@@ -30,7 +41,4 @@ concept → cube → vector → field → evolution over time
 
 - cube-core: stable
 - field-core: functional (v1)
-- timeline tracking: active
-- API: running
-
-Further layers (apps, UI, persistence) will be added on top.
+- apps layer: scaffolded
