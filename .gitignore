@@ -1,13 +1,25 @@
+cat > .gitignore <<'EOF'
+# Python
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
 .venv/
 venv/
-node_modules/
-dist/
-build/
-.env
-.env.*
-.DS_Store
-coverage/
+
+# Pytest
 .pytest_cache/
-.streamlit/
+
+# Build
+build/
+dist/
+*.egg-info/
+
+# Generated files
+*.html
+
+# OS
+.DS_Store
+
