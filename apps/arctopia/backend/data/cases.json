@@ -1,0 +1,37 @@
+[
+  {
+    "id": "8abad707-88a0-4234-b850-fa52e2478d2f",
+    "created_at": "2026-04-17T19:31:02.673747",
+    "title": "Fen Pilot",
+    "description": "Strategic mineral governance case",
+    "status": "open"
+  },
+  {
+    "id": "a567f20d-ad40-4c53-a3ff-efd8b9d4712d",
+    "created_at": "2026-04-17T19:31:02.691822",
+    "title": "Sequence Test",
+    "description": "",
+    "status": "open"
+  },
+  {
+    "id": "a23db81f-ac25-4969-81a4-54e9e9035a32",
+    "created_at": "2026-04-17T19:31:28.069345",
+    "title": "Fen Rare Earth Pilot",
+    "description": "Legitimacy and verification flow for strategic mineral extraction",
+    "status": "open"
+  },
+  {
+    "id": "5e5d10d9-4eb2-4b04-a278-0db57d431c8d",
+    "created_at": "2026-04-17T20:02:15.855537+00:00",
+    "title": "Fen Pilot",
+    "description": "Strategic mineral governance case",
+    "status": "open"
+  },
+  {
+    "id": "b88ab3e6-e06a-4dde-987a-ed2f668ff65e",
+    "created_at": "2026-04-17T20:02:15.873449+00:00",
+    "title": "Sequence Test",
+    "description": "",
+    "status": "open"
+  }
+]
