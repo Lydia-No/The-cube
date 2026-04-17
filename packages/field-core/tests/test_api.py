@@ -25,7 +25,9 @@ def test_step():
     response = client.post("/step")
     assert response.status_code == 200
     data = response.json()
-    assert data["status"] == "ok"
+    assert "field" in data
+    assert "agents" in data
+    assert "step" in data
 
 
 def test_seed_concept():
@@ -35,6 +37,18 @@ def test_seed_concept():
     )
     assert response.status_code == 200
     data = response.json()
-    assert data["status"] == "ok"
+    assert "result" in data
+    assert "state" in data
     assert data["result"]["concept"] == "symbolic AI"
     assert len(data["result"]["raw_vector"]) == 6
+    assert "field" in data["state"]
+
+
+def test_timeline_latest():
+    client.post("/step")
+    client.post("/step")
+    response = client.get("/timeline/latest?n=2")
+    assert response.status_code == 200
+    data = response.json()
+    assert isinstance(data, list)
+    assert len(data) <= 2

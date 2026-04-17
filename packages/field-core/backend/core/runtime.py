@@ -5,6 +5,7 @@ from core.agent import Agent
 from core.attractor import Attractor
 from core.topology import Topology
 from core.cube_bridge import CubeBridge
+from core.timeline import Timeline
 
 
 class Runtime:
@@ -19,7 +20,10 @@ class Runtime:
         ]
         self.topology = Topology()
         self.steps = 0
+
         self.bridge = CubeBridge()
+        self.timeline = Timeline()
+
         self.last_concept = None
         self.last_cube_payload = None
 
@@ -63,6 +67,9 @@ class Runtime:
         self.field.update(self.agents)
         self.topology.update(self.agents)
         self.steps += 1
+
+        # NEW: log timeline
+        self.timeline.log(self.get_state())
 
     def get_state(self):
         return {

@@ -27,11 +27,7 @@ def get_state():
 @app.post("/step")
 def step():
     runtime.step()
-    return {
-        "status": "ok",
-        "step": runtime.steps,
-        "field": runtime.field.get_state(),
-    }
+    return runtime.get_state()
 
 
 @app.post("/seed_concept")
@@ -43,8 +39,16 @@ def seed_concept(data: ConceptInput):
     )
     runtime.step()
     return {
-        "status": "ok",
-        "step": runtime.steps,
         "result": result,
-        "field": runtime.field.get_state(),
+        "state": runtime.get_state(),
     }
+
+
+@app.get("/timeline")
+def timeline():
+    return runtime.timeline.history
+
+
+@app.get("/timeline/latest")
+def timeline_latest(n: int = 10):
+    return runtime.timeline.latest(n)
